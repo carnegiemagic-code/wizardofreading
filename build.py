@@ -13,15 +13,46 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PHONE = "703-404-8902"
 PHONE_LINK = "tel:+17034048902"
 EMAIL = "info@wizardofreading.com"
+SITE = "https://wizardofreading.com/"
 MAGO_FORM_ID = "4c6c5bf1-7dfd-41b8-929d-72cf9757ff13"  # same form as deanalanmagic.com/reading/
 
 NAV = [("", "Home"), ("about/", "About"), ("schools/", "Schools"),
        ("libraries/", "Libraries"), ("reviews/", "Reviews"), ("contact/", "Contact")]
 
+SCHEMA = """<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "EntertainmentBusiness",
+ "name": "The Wizard of Reading",
+ "alternateName": "Dean Alan, the Wizard of Reading",
+ "description": "Reading assemblies and library magic shows that use magic to get elementary students excited about books.",
+ "url": "https://wizardofreading.com/",
+ "image": "https://wizardofreading.com/img/wizard-square.jpg",
+ "telephone": "+1-703-404-8902",
+ "email": "info@wizardofreading.com",
+ "founder": {"@type": "Person", "name": "Dean Alan"},
+ "areaServed": [{"@type": "State", "name": "Tennessee"}, {"@type": "State", "name": "Virginia"}, {"@type": "State", "name": "North Carolina"}, {"@type": "State", "name": "Kentucky"}],
+ "sameAs": ["https://deanalanmagic.com/"],
+ "makesOffer": [
+  {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "The Marvelous Magical Stories Show", "serviceType": "School reading assembly"}},
+  {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "The Seusstacular Reading Show", "serviceType": "Dr. Seuss reading assembly"}},
+  {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Library magic shows", "serviceType": "Library program"}}
+ ]
+}
+</script>"""
+
+# old WordPress addresses -> closest new page, so old links and Google listings still land somewhere useful
+OLD_PAGES = {
+    "about-dean/": "about/", "cat-in-the-hat-magician/": "schools/", "dr-seuss-magician/": "schools/",
+    "dr-seuss-magician/seusstastic2018/": "schools/", "fantastic-stories-show/": "schools/",
+    "e-promo-kit/": "contact/", "e-promo-kit-2/": "contact/", "e-promo-kit/marvelous/": "contact/",
+    "e-promo-kit/booking-thank-you/": "contact/", "home/": "", "thank-you/": "", "WizardofReading/Welcome.html": "",
+}
+
 REVIEWS = json.load(open(os.path.join(HERE, "reviews.json"), encoding="utf-8"))
 
 
-def page(slug, title, description, body):
+def page(slug, title, description, body, extra_head=""):
     root = "../" if slug else ""
     current = ' aria-current="page"'
     nav = "".join(
@@ -34,10 +65,14 @@ def page(slug, title, description, body):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}</title>
 <meta name="description" content="{html.escape(description)}">
+<link rel="canonical" href="{SITE}{slug}">
 <link rel="icon" href="{root}img/wizard-square.jpg">
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(description)}">
-<meta property="og:image" content="https://wizardofreading.com/img/wizard-square.jpg">
+<meta property="og:image" content="{SITE}img/wizard-square.jpg">
+<meta property="og:url" content="{SITE}{slug}">
+<meta property="og:type" content="website">
+{extra_head}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -144,7 +179,7 @@ def build():
     <p>Daytime assemblies and family night events. Dates go fast.</p>
     {cta(r)}
   </div>
-</section>""")
+</section>""", extra_head=SCHEMA)
 
     # ---------- ABOUT ----------
     r = "../"
@@ -162,8 +197,8 @@ def build():
 </section>""")
 
     # ---------- SCHOOLS ----------
-    page("schools/", "School Reading Assemblies | The Wizard of Reading",
-         "Two reading assemblies for elementary schools: The Marvelous Magical Stories Show and The Seusstacular Reading Show.",
+    page("schools/", "Reading Assemblies and Dr. Seuss Assemblies for Elementary Schools | The Wizard of Reading",
+         "Reading assemblies for elementary schools: The Marvelous Magical Stories Show and The Seusstacular Reading Show, a Dr. Seuss assembly for Read Across America Week. Tennessee, Virginia, North Carolina, Kentucky.",
          f"""
 <section class="wrap prose page-top">
   <h1>Reading assemblies for schools</h1>
@@ -265,6 +300,22 @@ def build():
     </script>
   </div>
 </section>""")
+
+    for old, new in OLD_PAGES.items():
+        path = os.path.join(HERE, old if old.endswith(".html") else old + "index.html")
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(f'<!doctype html><meta charset="utf-8"><title>The Wizard of Reading</title>'
+                    f'<link rel="canonical" href="{SITE}{new}"><meta name="robots" content="noindex">'
+                    f'<meta http-equiv="refresh" content="0; url=/{new}"><a href="/{new}">Continue</a>')
+
+    with open(os.path.join(HERE, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n')
+        for s_, _ in NAV:
+            f.write(f"  <url><loc>{SITE}{s_}</loc></url>\n")
+        f.write("</urlset>\n")
+    with open(os.path.join(HERE, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n")
 
     # GitHub Pages: 404 page goes home
     with open(os.path.join(HERE, "404.html"), "w", encoding="utf-8") as f:
