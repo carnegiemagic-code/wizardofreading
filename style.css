@@ -98,3 +98,10 @@ h3 { font-size: 1.45rem; }
   .head-phone { font-size: .95rem; }
   .brand { font-size: 1.1rem; }
 }
+
+/* seasonal library shows */
+.seasons { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; padding-bottom: 8px; }
+.season { background: var(--cream); border: 1px solid var(--line); border-top: 6px solid var(--red); border-radius: var(--radius); padding: 16px 18px; }
+.season h3 { font-size: 1.3rem; }
+.season p { margin: 0 0 .4em; }
+.month { text-transform: uppercase; letter-spacing: .08em; font-weight: 800; font-size: .85rem; color: var(--red-dark); }

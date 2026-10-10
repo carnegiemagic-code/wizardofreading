@@ -199,7 +199,31 @@ def build():
 </div></section>
 <section class="wrap prose">
   <h2>Seasonal shows</h2>
-  <p>Dean also presents seasonal library shows for summer reading, the fall and the winter holidays. They change from year to year, so ask what is current when you get in touch.</p>
+  <p>Through the year, Dean presents a show for every season.</p>
+</section>
+<section class="wrap seasons">
+  <article class="season">
+    <p class="month">October</p>
+    <h3>Fall-O-Ween Magic</h3>
+    <p>Festive and fun, with nothing scary. Tricks with pumpkins, friendly ghosts, and a fellow named Mr. Bones who can never seem to put himself together correctly. Perfectly silly and filled with laughter, just the way young kids like it.</p>
+  </article>
+  <article class="season">
+    <p class="month">November</p>
+    <h3>Turkey-Kadabra</h3>
+    <p>Magic, comedy and audience participation with fascinating stories about the Mayflower, the Pilgrims, turkeys and more. The perfect mix of fun and learning for a Thanksgiving celebration.</p>
+  </article>
+  <article class="season">
+    <p class="month">Winter</p>
+    <h3>The VERY Frozen Magic Show</h3>
+    <p>A fun and festive show to close out the year or start the new one, with magic featuring Frosty, penguins, Frozen characters and modern classics like <em>Snowmen at Night</em>.</p>
+  </article>
+  <article class="season">
+    <p class="month">Summer</p>
+    <h3>A NEW show every summer</h3>
+    <p>A brand new show each year for your summer reading program, filled with magic and story references for family audiences. Ask about this summer's show.</p>
+  </article>
+</section>
+<section class="wrap prose">
   <h2>The next step</h2>
   <p>Fill out the short form for availability and pricing, or call. We'd love to hear from you.</p>
   <p>{cta(r)} &nbsp; or call <a href="{PHONE_LINK}">{PHONE}</a></p>
