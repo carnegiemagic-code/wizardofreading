@@ -191,7 +191,7 @@ def build():
   <img class="float" src="{r}img/wizard-square.jpg" alt="Dean Alan" width="400" height="400">
   <p>Dean Alan is a full time professional speaker, magician, podcast host and historian. He has presented assemblies at thousands of schools for over 25 years, and his topic is always <strong>reading</strong>.</p>
   <p>As a child, Dean had difficulty reading. He struggled with reading comprehension. Then one day he discovered a "secret" that made reading fun and far easier, and it made every kind of reading easier. His passion is to share it with young students so that they can learn from his secret as well.</p>
-  <p>Dean is also one of the leading historians of magic and magicians in the country. He has given talks and lectures on magic history for historical groups and at magic conferences across the country. He was the featured guest in a French documentary on Houdini, has consulted with numerous TV shows on the subject of magic, and has spoken at a TED Talk.</p>
+  <p>Dean is also one of the leading historians of magic and magicians in the country. He has given talks and lectures on magic history for historical groups and at magic conferences across the country. He was the featured guest in a French documentary on Houdini, has consulted with numerous TV shows on the subject of magic, and has spoken at a TEDx Talk.</p>
   <p>He is also the host of <a href="https://magicdetectivepodcast.com/">The Magic Detective Podcast</a>, dedicated to the history of magic.</p>
   <p>{cta(r, "Bring Dean to your school or library")}</p>
 </section>""")
